@@ -27,11 +27,10 @@ jobs:
 
       - name: Build and run HelloWorld.java
         run: |
-          mvn -v
-          java -version
+          mvn -Pnative native:compile
 
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
           name: helloworld-${{ inputs.platform }}
-          path: helloworld*
+          path: ./target/graalvm-native-demo
