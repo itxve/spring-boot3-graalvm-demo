@@ -1,0 +1,36 @@
+name: GraalVM Native Image builds
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "platform"
+        required: true
+        default: "macos-latest"
+        type: choice
+        options:
+          - macos-latest
+          - windows-latest
+          - ubuntu-latest
+
+jobs:
+  build:
+    name: On ${{ inputs.platform }}
+    runs-on: ${{ inputs.platform }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: "17"
+          version: "22.3.2"
+          distribution: "graalvm"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and run HelloWorld.java
+        run: |
+          mvn -v
+
+      # - name: Upload binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: helloworld-${{ inputs.platform }}
+      #     path: helloworld*

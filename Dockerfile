@@ -4,11 +4,11 @@ RUN microdnf install yum -y \
   && yum --version \
   && yum install wget xz -y \
   && wget https://github.com/upx/upx/releases/download/v4.0.2/upx-4.0.2-amd64_linux.tar.xz -P /tmp \
-  && wget https://downloads.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz -P /tmp \
-  && tar xf /tmp/apache-maven-3.9.3-bin.tar.gz -C /opt \
+  && wget https://downloads.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz -P /tmp \
+  && tar xf /tmp/apache-maven-3.9.4-bin.tar.gz -C /opt \
   && tar xf /tmp/upx-4.0.2-amd64_linux.tar.xz -C /opt \
   && ln -s /opt/upx-4.0.2-amd64_linux /opt/upx \
-  && ln -s /opt/apache-maven-3.9.3 /opt/maven \
+  && ln -s /opt/apache-maven-3.9.4 /opt/maven \
   && ln -s /opt/graalvm-ce-java17-22.3.2 /opt/graalvm \
   && gu install native-image
 
