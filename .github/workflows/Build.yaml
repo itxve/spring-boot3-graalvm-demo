@@ -28,9 +28,10 @@ jobs:
       - name: Build and run HelloWorld.java
         run: |
           mvn -v
+          java -version
 
-      # - name: Upload binary
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: helloworld-${{ inputs.platform }}
-      #     path: helloworld*
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: helloworld-${{ inputs.platform }}
+          path: helloworld*
