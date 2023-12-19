@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 env:
-  bname: target/graalvm-native-demo
+  BINNAME: target/graalvm-native-demo
 
 jobs:
   build:
@@ -13,17 +13,17 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            files: ${{bname}}
+            files: ${{env.BINNAME}}
             args: --best --lzma
             strip: true
           - os: windows-latest
-            files: "${{bname}}.exe"
+            files: "${{env.BINNAME}}.exe"
             args: -9
             strip: false
           # upx has been deprecated because it is crashing for macOS Ventura or above!
           - os: macos-latest
             # files: |
-            #   ${{bname}}
+            #   ${{env.BINNAME}}
             # args: --best
             # strip: true
     steps:
@@ -52,5 +52,5 @@ jobs:
         with:
           name: spboot3-demo-${{ matrix.os }}
           path: |
-            ./${{bname}}
-            ./${{bname}}.exe
+            ./${{env.BINNAME}}
+            ./${{env.BINNAME}}.exe
