@@ -11,6 +11,10 @@ on:
           - macos-latest
           - windows-latest
           - ubuntu-latest
+      compress:
+        description: "compress"
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -21,7 +25,7 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           java-version: "17"
-          distribution: "graalvm-community"
+          distribution: "graalvm"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Native Image
@@ -29,8 +33,13 @@ jobs:
           mvn -Pnative native:compile
 
       - name: Compress binaries
+        if: inputs.compress
         uses: svenstaro/upx-action@v2
-        
+        with:
+          files: |
+            ./target/graalvm-native-demo
+            ./target/graalvm-native-demo.exe
+
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
