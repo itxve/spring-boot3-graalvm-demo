@@ -23,8 +23,10 @@ jobs:
           java-version: "17"
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          # only in linux
+          native-image-musl: ${{ inputs.platform == 'ubuntu-latest'}}
 
-      - name: Build and run HelloWorld.java
+      - name: Build Native Image
         run: |
           mvn -Pnative native:compile
 
