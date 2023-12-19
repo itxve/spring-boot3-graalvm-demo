@@ -16,17 +16,11 @@ jobs:
         include:
           - os: ubuntu-latest
             files: target/graalvm-native-demo
-            args: --best --lzma
-            strip: true
           - os: windows-latest
             files: target/graalvm-native-demo.exe
-            args: -9
-            strip: false
           # upx has been deprecated because it is crashing for macOS Ventura or above!
           - os: macos-latest
             files: target/graalvm-native-demo
-            # args: --best
-            # strip: true
     steps:
       - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
@@ -45,8 +39,6 @@ jobs:
         with:
           files: |
             ${{ matrix.files }}
-          args: ${{ matrix.args }}
-          strip: ${{ matrix.strip }}
 
       - name: Upload binary
         uses: actions/upload-artifact@v2
