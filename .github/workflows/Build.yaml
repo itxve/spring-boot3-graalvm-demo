@@ -33,5 +33,5 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: helloworld-${{ inputs.platform }}
-          path: !./target/graalvm-native-demo.jar*
+          name: ${{ inputs.platform }} - Upload Binary
+          path: !~/target/graalvm-native-demo.jar*
