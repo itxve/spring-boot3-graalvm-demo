@@ -1,37 +1,36 @@
 name: Realse All Native Image
 on:
   workflow_dispatch:
-    
+
 env:
   bname: target/graalvm-native-demo
 
 jobs:
   build:
-
     name: Publish binaries for ${{  matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
-            files: ${{env.bname}}
+            files: ${{bname}}
             args: --best --lzma
             strip: true
           - os: windows-latest
-            files: "${{env.bname}}.exe"
+            files: "${{bname}}.exe"
             args: -9
             strip: false
           # upx has been deprecated because it is crashing for macOS Ventura or above!
           - os: macos-latest
             # files: |
-            #   ${{env.bname}}
+            #   ${{bname}}
             # args: --best
             # strip: true
     steps:
       - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "17" 
+          java-version: "17"
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,5 +52,5 @@ jobs:
         with:
           name: spboot3-demo-${{ matrix.os }}
           path: |
-            ./${{env.bname}}
-            ./${{env.bname}}.exe
+            ./${{bname}}
+            ./${{bname}}.exe
