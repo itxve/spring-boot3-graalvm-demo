@@ -1,4 +1,4 @@
-name: GraalVM Native Image builds
+name: Realse GraalVM Native Image
 on:
   workflow_dispatch:
     inputs:
