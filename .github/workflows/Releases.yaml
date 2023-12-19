@@ -1,9 +1,6 @@
-name: Realse All Native Image
+name: Releases All Native Image
 on:
   workflow_dispatch:
-
-env:
-  BINNAME: target/graalvm-native-demo
 
 jobs:
   build:
@@ -13,17 +10,16 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            files: ${{env.BINNAME}}
+            files: target/graalvm-native-demo
             args: --best --lzma
             strip: true
           - os: windows-latest
-            files: "${{env.BINNAME}}.exe"
+            files: target/graalvm-native-demo.exe
             args: -9
             strip: false
           # upx has been deprecated because it is crashing for macOS Ventura or above!
           - os: macos-latest
-            # files: |
-            #   ${{env.BINNAME}}
+            files: target/graalvm-native-demo
             # args: --best
             # strip: true
     steps:
@@ -52,5 +48,4 @@ jobs:
         with:
           name: spboot3-demo-${{ matrix.os }}
           path: |
-            ./${{env.BINNAME}}
-            ./${{env.BINNAME}}.exe
+            ${{ matrix.files }}

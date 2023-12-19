@@ -1,4 +1,4 @@
-name: GraalVM Native Image builds
+name: Build sigle platform
 on:
   workflow_dispatch:
     inputs:
