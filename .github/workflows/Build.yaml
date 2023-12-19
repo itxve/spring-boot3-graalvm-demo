@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: helloworld-${{ inputs.platform }}
-          path: ./target/graalvm-native-demo*
+          path: !./target/graalvm-native-demo.jar*
