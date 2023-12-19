@@ -34,4 +34,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ inputs.platform }} - Upload Binary
-          path: ./target/graalvm-native-demo?(.exe)
+          path: |
+            ./target/graalvm-native-demo
+            ./target/graalvm-native-demo.exe
