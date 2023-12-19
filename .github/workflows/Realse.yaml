@@ -5,17 +5,33 @@ on:
       platform:
         description: "platform"
         required: true
-        default: "macos-latest"
+        default: "all"
         type: choice
         options:
           - macos-latest
-          - windows-latest
-          - ubuntu-latest
 
 jobs:
   build:
-    name: On ${{ inputs.platform }}
-    runs-on: ${{ inputs.platform }}
+    name: Publish binaries for ${{  matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            files: |
+              target/graalvm-native-demo
+            args: --best --lzma
+            strip: true
+          - os: windows-latest
+            files: |
+              target/graalvm-native-demo.exe
+            args: -9
+            strip: false
+          - os: macos-latest
+            files: |
+              target/graalvm-native-demo
+            args: --best
+            strip: true
     steps:
       - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
@@ -30,11 +46,16 @@ jobs:
 
       - name: Compress binaries
         uses: svenstaro/upx-action@v2
-        
+        with:
+          files: |
+            ${{ matrix.files }}
+          args: ${{ matrix.args }}
+          strip: ${{ matrix.strip }}
+
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ inputs.platform }} - Upload Binary
+          name: ${{ matrix.os }} - Upload Binary
           path: |
             ./target/graalvm-native-demo
             ./target/graalvm-native-demo.exe
