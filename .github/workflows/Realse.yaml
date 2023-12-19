@@ -1,42 +1,37 @@
-name: Realse GraalVM Native Image
+name: Realse All Native Image
 on:
   workflow_dispatch:
-    inputs:
-      platform:
-        description: "platform"
-        required: true
-        default: "all"
-        type: choice
-        options:
-          - macos-latest
+    
+env:
+  bname: target/graalvm-native-demo
 
 jobs:
   build:
+
     name: Publish binaries for ${{  matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
-            files: |
-              target/graalvm-native-demo
+            files: ${{env.bname}}
             args: --best --lzma
             strip: true
           - os: windows-latest
-            files: |
-              target/graalvm-native-demo.exe
+            files: "${{env.bname}}.exe"
             args: -9
             strip: false
+          # upx has been deprecated because it is crashing for macOS Ventura or above!
           - os: macos-latest
-            files: |
-              target/graalvm-native-demo
-            args: --best
-            strip: true
+            # files: |
+            #   ${{env.bname}}
+            # args: --best
+            # strip: true
     steps:
       - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "17"
+          java-version: "17" 
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,6 +40,7 @@ jobs:
           mvn -Pnative native:compile
 
       - name: Compress binaries
+        if: matrix.os !='macos-latest'
         uses: svenstaro/upx-action@v2
         with:
           files: |
@@ -55,7 +51,7 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os }} - Upload Binary
+          name: spboot3-demo-${{ matrix.os }}
           path: |
-            ./target/graalvm-native-demo
-            ./target/graalvm-native-demo.exe
+            ./${{env.bname}}
+            ./${{env.bname}}.exe
