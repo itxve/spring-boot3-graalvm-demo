@@ -1,6 +1,11 @@
 name: Releases All Native Image
 on:
   workflow_dispatch:
+    inputs:
+      compress:
+        description: "compress"
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -35,7 +40,7 @@ jobs:
           mvn -Pnative native:compile
 
       - name: Compress binaries
-        if: matrix.os !='macos-latest'
+        if: inputs.compress && matrix.os !='macos-latest'
         uses: svenstaro/upx-action@v2
         with:
           files: |
