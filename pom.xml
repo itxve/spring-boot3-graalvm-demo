@@ -50,9 +50,9 @@
         <artifactId>native-maven-plugin</artifactId>
         <configuration>
           <skip>false</skip>
-          <buildArgs>
+          <!-- <buildArgs>
             <arg>-H:+StaticExecutableWithDynamicLibC</arg>
-          </buildArgs>
+          </buildArgs> -->
           <verbose>true</verbose>
           <agent>true</agent>
           <mainClass>com.itxve.graalvmnativedemo.GraalvmNativeDemoApplication</mainClass>
