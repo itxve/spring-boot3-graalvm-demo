@@ -50,10 +50,6 @@
         <artifactId>native-maven-plugin</artifactId>
         <configuration>
           <skip>false</skip>
-          <!-- <buildArgs>
-            macos 不支持此配置
-            <arg>-H:+StaticExecutableWithDynamicLibC</arg>
-          </buildArgs> -->
           <verbose>true</verbose>
           <agent>true</agent>
           <mainClass>com.itxve.graalvmnativedemo.GraalvmNativeDemoApplication</mainClass>
